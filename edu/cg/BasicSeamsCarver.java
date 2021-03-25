@@ -148,7 +148,7 @@ public class BasicSeamsCarver extends ImageProcessor {
 				cost = cost1 + cost2;
 				break;
 			case below:
-				cost1 = Math.abs((new Color(this.greyScaledImage.getRGB(x, Math.min(y-1, 0))).getRed() - (new Color(this.greyScaledImage.getRGB(Math.max(x+1, getForEachWidth()), y))).getRed());
+				cost1 = Math.abs(new Color(this.greyScaledImage.getRGB(x, Math.min(y-1, 0))).getRed() - (new Color(this.greyScaledImage.getRGB(Math.max(x+1, getForEachWidth()), y))).getRed());
 				cost2 = Math.abs((new Color(this.greyScaledImage.getRGB(Math.min(x-1, 0), y))).getRed() - (new Color(this.greyScaledImage.getRGB(Math.max(x+1, getForEachWidth()), y))).getRed());
 
 				cost = cost1 + cost2;

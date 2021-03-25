@@ -4,11 +4,6 @@
     <list default="true" id="524f890d-209a-4331-8c01-7ff43a5c79a0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/edu/cg/BasicSeamsCarver.java" beforeDir="false" afterPath="$PROJECT_DIR$/edu/cg/BasicSeamsCarver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edu/cg/FunctioalForEachLoops.java" beforeDir="false" afterPath="$PROJECT_DIR$/edu/cg/FunctioalForEachLoops.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ex1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex1/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ex1/edu/cg/BasicSeamsCarver$CarvingScheme.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ex1/edu/cg/BasicSeamsCarver$Coordinate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ex1/edu/cg/BasicSeamsCarver.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +95,7 @@
       <updated>1616410746698</updated>
       <workItem from="1616410748089" duration="20628000" />
       <workItem from="1616661564484" duration="287000" />
-      <workItem from="1616661867969" duration="17382000" />
+      <workItem from="1616661867969" duration="18136000" />
     </task>
     <servers />
   </component>
