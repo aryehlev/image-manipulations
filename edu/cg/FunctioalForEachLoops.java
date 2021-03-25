@@ -66,6 +66,7 @@ public class FunctioalForEachLoops {
 			)
 		);
 	}
+
 	
 	public final void forEachWidth(Consumer<Integer> action) {
 		for(int x = 0; x < width; ++x)

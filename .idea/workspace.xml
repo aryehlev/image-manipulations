@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="524f890d-209a-4331-8c01-7ff43a5c79a0" name="Default Changelist" comment="" />
+    <list default="true" id="524f890d-209a-4331-8c01-7ff43a5c79a0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu/cg/BasicSeamsCarver.java" beforeDir="false" afterPath="$PROJECT_DIR$/edu/cg/BasicSeamsCarver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edu/cg/FunctioalForEachLoops.java" beforeDir="false" afterPath="$PROJECT_DIR$/edu/cg/FunctioalForEachLoops.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex1/edu/cg/BasicSeamsCarver$CarvingScheme.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex1/edu/cg/BasicSeamsCarver$Coordinate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex1/edu/cg/BasicSeamsCarver.class" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +39,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1q6rBdZFkYA3XCKdOZCfezEqCgf" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -45,7 +57,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
@@ -86,7 +98,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1616410746698</updated>
-      <workItem from="1616410748089" duration="19980000" />
+      <workItem from="1616410748089" duration="20628000" />
+      <workItem from="1616661564484" duration="287000" />
+      <workItem from="1616661867969" duration="17382000" />
     </task>
     <servers />
   </component>
@@ -94,6 +108,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="499" y="165" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1616665175871">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="165" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1616665175871" />
     <state x="-1506" y="55" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1616411002656">
       <screen x="-1920" y="-121" width="1920" height="1040" />
     </state>
@@ -106,26 +124,31 @@
       <screen x="-1920" y="-121" width="1920" height="1040" />
     </state>
     <state x="-1285" y="114" key="FileChooserDialogImpl/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616432825701" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1616430409881">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1616433889885">
       <screen x="-1920" y="-121" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616430409881" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1616430409881">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616433889885" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1616433889885">
       <screen x="-1920" y="-121" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616430409881" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1616430409881">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616433889885" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1616433889885">
       <screen x="-1920" y="-121" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616430409881" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1616430409881">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616433889885" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1616433889885">
       <screen x="-1920" y="-121" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616430409881" />
-    <state x="-1480" y="-26" key="SettingsEditor" timestamp="1616433271489">
-      <screen x="-1920" y="-121" width="1920" height="1040" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616433889885" />
+    <state x="352" y="75" key="SettingsEditor" timestamp="1616665713533">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="-1480" y="-26" key="SettingsEditor/0.0.1536.824/-1920.-121.1920.1040@-1920.-121.1920.1040" timestamp="1616433271489" />
+    <state x="352" y="75" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1616665713533" />
+    <state x="477" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1616661869281">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="477" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1616661869281" />
     <state x="-1313" y="15" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1616432445901">
       <screen x="-1920" y="-121" width="1920" height="1040" />
     </state>
