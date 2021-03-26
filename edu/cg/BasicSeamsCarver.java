@@ -109,24 +109,55 @@ public class BasicSeamsCarver extends ImageProcessor {
         System.out.println("num of vertical seams = " + this.numOfVerticalSeams);
         for(int x = 0; x < currentWidth; x++){
             for(int y = 0; y < currentHeight; y++){
-                ans.setRGB(x,y,this.originalImage.getRGB(this.originalCoordinates[y][x].X,this.originalCoordinates[y][x].Y));
+                ans.setRGB(x,y,this.workingImage.getRGB(this.originalCoordinates[y][x].X,this.originalCoordinates[y][x].Y));
             }
         }
         return ans;
     }
 
-    private void deleteAllSeams(int numOfVerticalSeams){
-        for(int i = 0; i < numOfVerticalSeams; i++){
-            deleteMinimalSeam();
+    private void deleteAllSeams(int numOfVerticalSeams, int numOfHorizontalSeams, CarvingScheme carvingScheme){
+        if (carvingScheme == CarvingScheme.VERTICAL_HORIZONTAL) {
+            deleteVerticalSeams(numOfVerticalSeams);
+            deleteHorizontalSeams(numOfHorizontalSeams);
+        }
+        else if (carvingScheme == CarvingScheme.HORIZONTAL_VERTICAL) {
+            deleteHorizontalSeams(numOfHorizontalSeams);
+            deleteVerticalSeams(numOfVerticalSeams);
+
+        }else{
+            this.deleteSeamsIntermidiatly(numOfVerticalSeams, numOfHorizontalSeams);
         }
     }
 
-    private void deleteMinimalSeam() {
+    private void deleteVerticalSeams(int numOfVerticalSeams){
+        for (int i = 0; i < numOfVerticalSeams; i++) {
+            deleteMinimalVerticalSeam();
+        }
+    }
 
-    	this.computeCosts();
+    private void deleteHorizontalSeams(int numOfHorizontalSeams){
+        for (int i = 0; i < numOfHorizontalSeams; i++) {
+            deleteMinimalHorizontalSeam();
+        }
+    }
+    private void deleteSeamsIntermidiatly(int numOfVerticalSeams, int numOfHorizontalSeams) {
 
+        while(numOfVerticalSeams > 0 || numOfHorizontalSeams > 0){
+            if (numOfVerticalSeams > 0 ) {
+                deleteMinimalVerticalSeam();
+                numOfVerticalSeams--;
+            }
 
+            if (numOfHorizontalSeams > 0){
+                deleteMinimalHorizontalSeam();
+                numOfHorizontalSeams--;
+            }
+        }
+    }
 
+    private void deleteMinimalVerticalSeam() {
+
+    	this.computeCosts(true);
 
         double minCost = Double.MAX_VALUE;
     	int index = -1;
@@ -143,15 +174,42 @@ public class BasicSeamsCarver extends ImageProcessor {
 
 
     		seamToRemove[y] = this.originalCoordinates[y][index];
-    		this.shiftLeft(y, index);
+    		this.verticalShift(y, index);
     		index = index + this.costsBackTack[y][index];
 		}
 
+    	this.verticalSeamCoordinates.add(seamToRemove);
     	this.currentWidth--;
-
     }
 
-	private void shiftLeft(int y, int index) {
+    private void deleteMinimalHorizontalSeam() {
+
+        this.computeCosts(false);
+
+        double minCost = Double.MAX_VALUE;
+        int index = -1;
+
+        for(int y = 0; y < this.currentHeight; y++){
+            if(this.costs[y][this.currentWidth-1] < minCost){
+                minCost = costs[y][this.currentWidth-1];
+                index = y;
+            }
+        }
+
+
+        Coordinate[] seamToRemove = new Coordinate[this.currentWidth];
+        for(int x = this.currentWidth - 1; x >= 0; x--){
+
+
+            seamToRemove[x] = this.originalCoordinates[index][x];
+            this.horizontalShift(index, x);
+            index = index + this.costsBackTack[index][x];
+        }
+        this.horizontalSeamCoordinates.add(seamToRemove);
+        this.currentHeight--;
+    }
+
+	private void verticalShift(int y, int index) {
 		this.originalCoordinates[y][index] = null;
     	for(int x = index; x < currentWidth - 1; x++){
     		this.originalCoordinates[y][x] = this.originalCoordinates[y][x+1];
@@ -159,12 +217,27 @@ public class BasicSeamsCarver extends ImageProcessor {
 		}
 	}
 
+	private  void horizontalShift(int index, int x){
+        this.originalCoordinates[index][x] = null;
+        for(int y = index; y < currentHeight - 1; y++){
+            this.originalCoordinates[y][x] = this.originalCoordinates[y+1][x];
+            this.carvedImage[y][x] = carvedImage[y+1][x];
+        }
+    }
 
-	private void computeCosts() {
 
-        for (int y = 0; y < this.currentHeight; y++) {
-            for (int x = 0; x < this.currentWidth; x++) {
-                this.computeMinimumCostForSeamsVertical(y, x);
+	private void computeCosts(boolean vertical) {
+        if (vertical) {
+            for (int y = 0; y < this.currentHeight; y++) {
+                for (int x = 0; x < this.currentWidth; x++) {
+                    this.computeMinimumCostForSeamsVertical(y, x);
+                }
+            }
+        }else{
+            for (int x = 0; x < this.currentWidth; x++){
+                for (int y = 0; y < this.currentHeight; y++)  {
+                    this.computeMinimumCostForSeamsHorizontal(y, x);
+                }
             }
         }
     }
@@ -201,19 +274,20 @@ public class BasicSeamsCarver extends ImageProcessor {
             double costLeft = mLeft + cLeft;
             double costUp = mUp + cUp;
 
-            double minCost = Double.MAX_VALUE;
+            double minCost = 0;
 
-
-            if (costRight < minCost && costRight <  costLeft && x < this.currentWidth - 1) {
+            if (costRight < costUp && costRight < costLeft  && x < this.currentWidth - 1) {
                 camefrom = 1;
                 minCost = costRight;
-            } else if (costLeft < costUp && costLeft < costRight && x > 0) {
+            }
+            else if (costLeft < costUp && costLeft < costRight && x > 0) {
                 camefrom = - 1;
-                minCost = costRight;
+                minCost = costLeft;
             }else{
                 minCost = costUp;
                 camefrom = 0;
             }
+
             this.costs[y][x] = this.pixelEnergy(y, x) + minCost;
 
         }else{
@@ -222,6 +296,62 @@ public class BasicSeamsCarver extends ImageProcessor {
 
         this.costsBackTack[y][x] = camefrom;
     }
+
+    private void computeMinimumCostForSeamsHorizontal(int y, int x) {
+        int camefrom = 0;
+        int cBehind = 255;
+        int cAbove = 255;
+        int cBelow = 255;
+
+
+        if (x > 0) {
+            double mBehind = this.costs[y][x - 1];
+            double mAbove = Double.MAX_VALUE / 2;
+            double mBelow = Double.MAX_VALUE / 2;
+
+            if (y > 0 && y < this.currentHeight - 1) {
+                cBehind = Math.abs(this.carvedImage[y-1][x] - this.carvedImage[y + 1][x]);
+                cAbove = cBehind;
+                cBelow = cAbove;
+            }
+
+            if (y > 0) {
+                cAbove += Math.abs(this.carvedImage[y-1][x] - this.carvedImage[y][x-1]);
+                mAbove = this.costs[y - 1][x - 1];
+            }
+
+            if (y  < this.currentHeight - 1) {
+                cBelow += Math.abs(this.carvedImage[y][x-1] - this.carvedImage[y+1][x]);
+                mBelow = this.costs[y + 1][x - 1];
+            }
+
+            double costAbove = mAbove + cAbove;
+            double costBehind = mBehind + cBehind;
+            double costBelow = mBelow + cBelow;
+
+            double minCost = 0;
+
+            if (costBelow < costBehind && costBelow < costAbove  && y < this.currentWidth - 1) {
+                camefrom = 1;
+                minCost = costBelow;
+            }
+            else if (costAbove < costBehind && costAbove < costBelow && y > 0) {
+                camefrom = - 1;
+                minCost = costAbove;
+            }else{
+                minCost = costBehind;
+                camefrom = 0;
+            }
+
+            this.costs[y][x] = this.pixelEnergy(y, x) + minCost;
+
+        }else{
+            this.costs[y][x] = this.pixelEnergy(y, x);
+        }
+
+        this.costsBackTack[y][x] = camefrom;
+    }
+
 
     private double pixelEnergy(int y, int x) {
         int currentColour = carvedImage[y][x];
@@ -258,15 +388,37 @@ public class BasicSeamsCarver extends ImageProcessor {
         // and 'numberOfHorizontalSeamsToCarve' horizontal seams from the image.
         // Note you must consider the 'carvingScheme' parameter in your procedure.
         // Return the resulting image.
-        try{
-            this.deleteAllSeams(numberOfVerticalSeamsToCarve);
-            return this.reconstructImage();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
 
+        this.deleteAllSeams(numberOfVerticalSeamsToCarve,  numberOfHorizontalSeamsToCarve, carvingScheme);
+        return this.reconstructImage();
     }
+
+    private BufferedImage showHorizontalSeams(int numOfHorizontalSeams, int seamColorRGB) {
+        deleteHorizontalSeams(numOfHorizontalSeams);
+        BufferedImage outputImage = this.duplicateWorkingImage();
+
+        for (Coordinate[] seam : this.horizontalSeamCoordinates){
+            for(int i = 0; i < seam.length; i++){
+                outputImage.setRGB(seam[i].X, seam[i].Y,seamColorRGB);
+            }
+        }
+
+        return outputImage;
+    }
+
+    private BufferedImage showVerticalSeams(int numOfVerticalSeams, int seamColorRGB) {
+        deleteVerticalSeams(numOfVerticalSeams);
+        BufferedImage outputImage = this.duplicateWorkingImage();
+
+        for (Coordinate[] seam : this.verticalSeamCoordinates){
+            for(int i = 0; i < seam.length; i++){
+                outputImage.setRGB(seam[i].X, seam[i].Y,seamColorRGB);
+            }
+        }
+        return outputImage;
+    }
+
+
 
     public BufferedImage showSeams(boolean showVerticalSeams, int seamColorRGB) {
         int numberOfVerticalSeamsToCarve = Math.abs(this.outWidth - this.inWidth);
@@ -280,6 +432,15 @@ public class BasicSeamsCarver extends ImageProcessor {
         // from the image.
         // Then, generate a new image from the input image in which you mark all of the horizontal seams that
         // were chosen in the Seam Carving process.
-        throw new UnimplementedMethodException("showSeams");
+        BufferedImage shownSeamImage;
+        if (showVerticalSeams){
+            shownSeamImage = this.showVerticalSeams(numberOfVerticalSeamsToCarve, seamColorRGB);
+        }else{
+            shownSeamImage = this.showHorizontalSeams(numberOfHorizontalSeamsToCarve, seamColorRGB);
+        }
+        return shownSeamImage;
+
     }
+
+
 }
