@@ -47,11 +47,12 @@ public class BasicSeamsCarver extends ImageProcessor {
     // TODO :  Decide on the fields your BasicSeamsCarver should include. Refer to the recitation and homework
     // instructions PDF to make an educated decision.
     private double[][] costs;
-    BufferedImage carvedImage;
+    private int[][] carvedImage;
     private int[][] costsBackTack;
     private int currentWidth;
     private int currentHeight;
 
+    private BufferedImage greyscaledImage;
     private Coordinate[][] originalCoordinates;
     private ArrayList<Coordinate[]> horizontalSeamCoordinates;
     private ArrayList<Coordinate[]> verticalSeamCoordinates;
@@ -71,7 +72,7 @@ public class BasicSeamsCarver extends ImageProcessor {
         this.costs = new double[currentHeight][currentWidth];
         this.costsBackTack = new int[currentHeight][currentWidth];
 
-        this.carvedImage = this.greyscale();
+        this.greyscaledImage = this.greyscale();
         this.originalImage = this.greyscale();
         this.numOfHorizontalSeams = workingImage.getWidth() - outWidth;
         this.numOfVerticalSeams = workingImage.getHeight() - outHeight;
@@ -80,7 +81,16 @@ public class BasicSeamsCarver extends ImageProcessor {
         this.originalCoordinates = new Coordinate[currentHeight][currentWidth];
 
         this.initCoordinatesMatrix();
-//		this.computeCosts();
+		this.initCarvedImage();
+    }
+
+    private void initCarvedImage() {
+        this.carvedImage = new int[this.currentHeight][this.currentWidth];
+        for(int x = 0; x < currentWidth; x++){
+            for(int y = 0; y < currentHeight; y++){
+                this.carvedImage[y][x] = (new Color(this.greyscaledImage.getRGB(x,y))).getRed();
+            }
+        }
     }
 
     private void initCoordinatesMatrix(){
@@ -112,9 +122,13 @@ public class BasicSeamsCarver extends ImageProcessor {
     }
 
     private void deleteMinimalSeam() {
+
     	this.computeCosts();
 
-    	double minCost = Double.MAX_VALUE;
+
+
+
+        double minCost = Double.MAX_VALUE;
     	int index = -1;
     	for(int x = 0; x < this.currentWidth; x++){
     		if(this.costs[this.currentHeight-1][x] < minCost){
@@ -125,22 +139,15 @@ public class BasicSeamsCarver extends ImageProcessor {
 
 
     	Coordinate[] seamToRemove = new Coordinate[this.currentHeight];
-    	for(int y = this.currentHeight - 1; y > 0; y--){
-//            System.out.println(seamToRemove[y]);
-//            System.out.println(this.originalCoordinates[y][index]);
-            if(index == -1)
-            {
-                System.out.println(minCost);
-                System.out.println(this.currentWidth);
-            }
+    	for(int y = this.currentHeight - 1; y >= 0; y--){
+
+
     		seamToRemove[y] = this.originalCoordinates[y][index];
     		this.shiftLeft(y, index);
     		index = index + this.costsBackTack[y][index];
-    		index = Math.max(index, 0);
 		}
-    	this.currentWidth--;
-//        System.out.println("aaaaaaaaaaa");
 
+    	this.currentWidth--;
 
     }
 
@@ -148,7 +155,7 @@ public class BasicSeamsCarver extends ImageProcessor {
 		this.originalCoordinates[y][index] = null;
     	for(int x = index; x < currentWidth - 1; x++){
     		this.originalCoordinates[y][x] = this.originalCoordinates[y][x+1];
-            this.carvedImage.setRGB(index,y,carvedImage.getRGB(index+1,y));
+            this.carvedImage[y][x] = carvedImage[y][x+1];
 		}
 	}
 
@@ -160,101 +167,82 @@ public class BasicSeamsCarver extends ImageProcessor {
                 this.computeMinimumCostForSeamsVertical(y, x);
             }
         }
-
     }
 
     private void computeMinimumCostForSeamsVertical(int y, int x) {
-        double cost = 0;
-//        System.out.println(y);
-        if (y == 0) {
-            cost = this.pixelEnergy(y, x);
-            this.costs[y][x] = cost;
-        } else {
-
-            cost = this.pixelEnergy(y, x);
-//            System.out.println("got here");
-            double minCost = 0;
-
-            double costLeft = this.costs[y - 1][Math.max(x - 1, 0)] + this.computeCostSeams(y, x, costPossibilities.left);
-            double costAboveLR = this.costs[y - 1][x] + this.computeCostSeams(y, x, costPossibilities.aboveLR);
-            double costRight = this.costs[y - 1][Math.min(this.currentWidth - 1, x + 1)] + this.computeCostSeams(y, x, costPossibilities.Right);
+        int camefrom = 0;
+        int cLeft = 255;
+        int cUp = 255;
+        int cRight = 255;
 
 
-            int direction = -2;
+        if (y > 0) {
+            double mUp = this.costs[y - 1][x];
+            double mRight = Double.MAX_VALUE / 2;
+            double mLeft = Double.MAX_VALUE / 2;
 
-
-            if (costLeft < costRight && costLeft < costAboveLR) {
-                minCost = costLeft;
-                direction = -1;
-            } else if (costRight < costLeft && costRight < costAboveLR) {
-                minCost = costRight;
-                direction = 1;
-            } else {
-                minCost = costAboveLR;
-                direction = 0;
+            if (x > 0 && x < this.currentWidth - 1) {
+                cRight = Math.abs(this.carvedImage[y][x - 1] - this.carvedImage[y][x + 1]);
+                cLeft = cRight;
+                cUp = cRight;
             }
-            this.costsBackTack[y][x] = direction;
-            this.costs[y][x] = minCost + cost;
+
+            if (x > 0) {
+                cLeft += Math.abs(this.carvedImage[y][x - 1] - this.carvedImage[y - 1][x]);
+                mLeft = this.costs[y - 1][x - 1];
+            }
+
+            if (x  < this.currentWidth - 1) {
+                cRight += Math.abs(this.carvedImage[y - 1][x] - this.carvedImage[y][x + 1]);
+                mRight = this.costs[y - 1][x + 1];
+            }
+
+            double costRight = mRight + cRight;
+            double costLeft = mLeft + cLeft;
+            double costUp = mUp + cUp;
+
+            double minCost = Double.MAX_VALUE;
+
+
+            if (costRight < minCost && costRight <  costLeft && x < this.currentWidth - 1) {
+                camefrom = 1;
+                minCost = costRight;
+            } else if (costLeft < costUp && costLeft < costRight && x > 0) {
+                camefrom = - 1;
+                minCost = costRight;
+            }else{
+                minCost = costUp;
+                camefrom = 0;
+            }
+            this.costs[y][x] = this.pixelEnergy(y, x) + minCost;
+
+        }else{
+            this.costs[y][x] = this.pixelEnergy(y, x);
         }
+
+        this.costsBackTack[y][x] = camefrom;
     }
 
-    private double computeCostSeams(int y, int x, costPossibilities direction) {
-        double cost = 0;
-        double cost2 = 0;
-        double cost1 = 0;
-        switch (direction) {
-            case left:
-                cost1 = Math.abs((new Color(this.carvedImage.getRGB(Math.max(x - 1, 0), y))).getRed() - (new Color(this.carvedImage.getRGB(x, Math.max(y - 1, 0))).getRed()));
-                cost2 = Math.abs((new Color(this.carvedImage.getRGB(x, Math.max(y - 1, 0)))).getRed() - (new Color(this.carvedImage.getRGB(x, Math.min(y + 1, this.currentHeight) - 1)).getRed()));
-                cost = cost1 + cost2;
-                break;
-            case Right:
-                cost1 = Math.abs((new Color(this.carvedImage.getRGB(Math.max(x - 1, 0), y))).getRed() - (new Color(this.carvedImage.getRGB(x, Math.min(y + 1, this.currentHeight - 1))).getRed()));
-                cost2 = Math.abs((new Color(this.carvedImage.getRGB(x, Math.max(y - 1, 0)))).getRed() - (new Color(this.carvedImage.getRGB(x, Math.min(y + 1, this.currentHeight - 1))).getRed()));
-                cost = cost1 + cost2;
-                break;
-            case aboveLR:
-                cost = Math.abs((new Color(this.carvedImage.getRGB(x, Math.max(y - 1, 0)))).getRed() - (new Color(this.carvedImage.getRGB(x, Math.min(y + 1, this.currentHeight - 1))).getRed()));
-                break;
-            case above:
-                cost1 = Math.abs((new Color(this.carvedImage.getRGB(Math.max(x - 1, 0), y))).getRed() - (new Color(this.carvedImage.getRGB(Math.min(x + 1, this.currentWidth - 1), y))).getRed());
-                cost2 = Math.abs((new Color(this.carvedImage.getRGB(Math.max(x - 1, 0), y))).getRed() - (new Color(this.carvedImage.getRGB(x, Math.max(y - 1, 0))).getRed()));
-
-                cost = cost1 + cost2;
-                break;
-            case below:
-                cost1 = Math.abs(new Color(this.carvedImage.getRGB(x, Math.min(y - 1, 0))).getRed() - (new Color(this.carvedImage.getRGB(Math.max(x + 1, getForEachWidth()), y))).getRed());
-                cost2 = Math.abs((new Color(this.carvedImage.getRGB(Math.min(x - 1, 0), y))).getRed() - (new Color(this.carvedImage.getRGB(Math.max(x + 1, getForEachWidth()), y))).getRed());
-
-                cost = cost1 + cost2;
-                break;
-            case behind:
-                cost = Math.abs((new Color(this.carvedImage.getRGB(Math.min(x - 1, 0), y))).getRed() - (new Color(this.carvedImage.getRGB(Math.max(x + 1, getForEachWidth()), y))).getRed());
-                break;
-        }
-        return cost;
-    }
-
-    private double pixelEnergy(Integer y, Integer x) {
-        Color currentColour = new Color(this.carvedImage.getRGB(x, y));
-        Color verticalColour = null;
-        Color horizontalColour = null;
+    private double pixelEnergy(int y, int x) {
+        int currentColour = carvedImage[y][x];
+        int verticalColour = -1;
+        int horizontalColour = -1;
 
 
-        if (y == getForEachHeight() - 1) {
-            verticalColour = new Color(this.carvedImage.getRGB(x, y - 1));
+        if (y == this.currentHeight - 1) {
+            verticalColour = this.carvedImage[y-1][x];
         } else {
-            verticalColour = new Color(this.carvedImage.getRGB(x, y + 1));
+            verticalColour = this.carvedImage[y+1][x];
         }
 
-        if (x == getForEachWidth() - 1) {
-            horizontalColour = new Color(this.carvedImage.getRGB(x - 1, y));
+        if (x == this.currentWidth - 1) {
+            horizontalColour = this.carvedImage[y][x-1];
         } else {
-            horizontalColour = new Color(this.carvedImage.getRGB(x + 1, y));
+            horizontalColour = this.carvedImage[y][x+1];
         }
 
-        double horizontal = Math.abs(currentColour.getBlue() - horizontalColour.getBlue());
-        double vertical = Math.abs(currentColour.getBlue() - verticalColour.getBlue());
+        double horizontal = Math.abs(currentColour - horizontalColour);
+        double vertical = Math.abs(currentColour - verticalColour);
 
         double energy = Math.sqrt(Math.pow(vertical, 2) + Math.pow(horizontal, 2));
 
