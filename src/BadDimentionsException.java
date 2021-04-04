@@ -1,4 +1,4 @@
-package edu.cg;
+package src;
 
 public class BadDimentionsException extends RuntimeException {
 

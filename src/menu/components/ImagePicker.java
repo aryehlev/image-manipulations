@@ -1,4 +1,4 @@
-package edu.cg.menu.components;
+package src.menu.components;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
-import edu.cg.menu.MenuWindow;
+import src.menu.MenuWindow;
 
 @SuppressWarnings("serial")
 public class ImagePicker extends JPanel {

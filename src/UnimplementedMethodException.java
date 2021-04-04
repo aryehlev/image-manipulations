@@ -1,4 +1,4 @@
-package edu.cg;
+package src;
 
 @SuppressWarnings("serial")
 public class UnimplementedMethodException extends RuntimeException {

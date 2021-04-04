@@ -1,4 +1,4 @@
-package edu.cg.menu;
+package src.menu;
 
 /*
  * This class displays an image in a new window and allows to save it as a PNG file.

@@ -1,4 +1,4 @@
-package edu.cg;
+package src;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

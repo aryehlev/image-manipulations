@@ -1,4 +1,4 @@
-package edu.cg.menu.components;
+package src.menu.components;
 
 import java.awt.BorderLayout;
 import java.util.Calendar;
@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
-import edu.cg.Logger;
+import src.Logger;
 
 @SuppressWarnings("serial")
 public class LogField extends JPanel implements Logger {

@@ -1,4 +1,4 @@
-package edu.cg.menu;
+package src.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,18 +9,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import edu.cg.RGBWeights;
-import edu.cg.AdvancedSeamsCarver;
-import edu.cg.ImageProcessor;
-import edu.cg.Logger;
-import edu.cg.BasicSeamsCarver;
-import edu.cg.menu.components.ActionsController;
-import edu.cg.menu.components.CarvingSchemeSelector;
-import edu.cg.menu.components.ColorMixer;
-import edu.cg.menu.components.ImagePicker;
-import edu.cg.menu.components.LogField;
-import edu.cg.menu.components.ScaleSelector;
-import edu.cg.menu.components.ScaleSelector.ResizingOperation;
+import src.RGBWeights;
+import src.AdvancedSeamsCarver;
+import src.ImageProcessor;
+import src.Logger;
+import src.BasicSeamsCarver;
+import src.menu.components.ActionsController;
+import src.menu.components.CarvingSchemeSelector;
+import src.menu.components.ColorMixer;
+import src.menu.components.ImagePicker;
+import src.menu.components.LogField;
+import src.menu.components.ScaleSelector;
 
 @SuppressWarnings("serial")
 public class MenuWindow extends JFrame implements Logger {
@@ -119,8 +118,8 @@ public class MenuWindow extends JFrame implements Logger {
 	public void resize() {
 		int outWidth = scaleSelector.width();
 		int outHeight = scaleSelector.height();
-		ResizingOperation op = scaleSelector.resizingOperation();
-		edu.cg.BasicSeamsCarver.CarvingScheme scheme = schemeSelector.carvingScheme();
+		ScaleSelector.ResizingOperation op = scaleSelector.resizingOperation();
+		BasicSeamsCarver.CarvingScheme scheme = schemeSelector.carvingScheme();
 		RGBWeights rgbWeights = colorMixer.getRGBWeights();
 		BufferedImage img = null;
 		String presentMessage = "Resize: " + op.title;

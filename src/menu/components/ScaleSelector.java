@@ -1,4 +1,4 @@
-package edu.cg.menu.components;
+package src.menu.components;
 
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;

@@ -1,4 +1,4 @@
-package edu.cg;
+package src;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

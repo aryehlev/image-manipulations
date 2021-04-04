@@ -1,5 +1,5 @@
-package edu.cg;
-import edu.cg.menu.MenuWindow;
+package src;
+import src.menu.MenuWindow;
 
 public class Main {
 	

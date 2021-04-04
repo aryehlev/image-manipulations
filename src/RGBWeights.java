@@ -1,4 +1,4 @@
-package edu.cg;
+package src;
 
 public class RGBWeights {
 	public final int redWeight;

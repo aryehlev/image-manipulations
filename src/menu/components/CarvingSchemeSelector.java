@@ -1,4 +1,4 @@
-package edu.cg.menu.components;
+package src.menu.components;
 
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import edu.cg.BasicSeamsCarver.CarvingScheme;
+import src.BasicSeamsCarver;
 
 @SuppressWarnings("serial")
 public class CarvingSchemeSelector extends JPanel {
@@ -35,12 +35,12 @@ public class CarvingSchemeSelector extends JPanel {
 		add(intermittent);
 	}
 
-	public CarvingScheme carvingScheme() {
+	public BasicSeamsCarver.CarvingScheme carvingScheme() {
 		if(verticalFirst.getState())
-			return CarvingScheme.VERTICAL_HORIZONTAL;
+			return BasicSeamsCarver.CarvingScheme.VERTICAL_HORIZONTAL;
 		else if(horizontalFirst.getState())
-			return CarvingScheme.HORIZONTAL_VERTICAL;
+			return BasicSeamsCarver.CarvingScheme.HORIZONTAL_VERTICAL;
 		else
-			return CarvingScheme.INTERMITTENT;
+			return BasicSeamsCarver.CarvingScheme.INTERMITTENT;
 	}
 }

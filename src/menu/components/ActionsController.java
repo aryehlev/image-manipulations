@@ -1,4 +1,4 @@
-package edu.cg.menu.components;
+package src.menu.components;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import edu.cg.Logger;
-import edu.cg.menu.MenuWindow;
+import src.Logger;
+import src.menu.MenuWindow;
 
 @SuppressWarnings("serial")
 public class ActionsController extends JPanel {

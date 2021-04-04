@@ -1,4 +1,4 @@
-package edu.cg;
+package src;
 
 public interface Logger {
 	public void log(String s);

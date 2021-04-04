@@ -1,4 +1,4 @@
-package edu.cg.menu.components;
+package src.menu.components;
 
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import edu.cg.RGBWeights;
+import src.RGBWeights;
 
 @SuppressWarnings("serial")
 public class ColorMixer extends JPanel {
